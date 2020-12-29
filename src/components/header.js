@@ -1,42 +1,43 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
+import { css } from "@emotion/core"
+//Components
+import { Link, useStaticQuery, graphql } from "gatsby"
+import Navbar from "./navbar"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
+const Header = () => {
+  const { logo } = useStaticQuery(graphql`
+    query {
+      logo: file(relativePath: { eq: "logo.svg" }) {
+        publicURL
+      }
+    }
+  `)
+  return (
+    <header
+      css={css`
+        background: #0d283b;
+        padding: 1rem;
+      `}
     >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
+      <div
+        css={css`
+          max-width: 120rem;
+          margin: 0 auto;
+          text-align: center;
+          @media (min-width: 768px) {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+        `}
+      >
+        <Link to={"/"}>
+          <img src={logo.publicURL} alt="Logotipo de bienes raíces" />
         </Link>
-      </h1>
-    </div>
-  </header>
-)
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
+        <Navbar />
+      </div>
+    </header>
+  )
 }
 
 export default Header
